@@ -9,7 +9,6 @@ routes.get('/', (req, res) => {
 });
 
 routes.post('/devs', (req, res) => {
-    // Agora sabemos ler o req.body e o devolveremos também como resposta
     return res.json(req.body);
 })
 
