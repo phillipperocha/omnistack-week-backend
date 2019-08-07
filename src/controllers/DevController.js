@@ -1,21 +1,33 @@
-// Vamos importar o axios dentro do nosso controller
 const axios = require('axios')
+// Vamos importar o nosso modelo para instanciar um Dev
+const Dev = require('../models/Dev')
 
-// Nosso controller aqui pode ser simplesmente um objeto, então podemos exportar
 module.exports = {
-    // E aqui agora colocamos todas as nossas funções, os métodos do controller
-    // Para criar utilizaremos o método store
     async store(req, res) {
-        // Iremos pegar o username do github de nosso usuário primeiro
         const { username } = req.body
 
-        // Queremos agora acessar a API do github: api.github.com/users/phillipperocha
-        // e retornar os dados para que possamos utilizar.
-        // Vamos utilizar o axios para fazer requisições em APIs externas
-        // Mas o axios demora um pouquinho pra pegar os dados e precisamos mandar ele esperar antes de seguir
-        // Por isso usamos o async na função
+        // Antes de criar um usuário, vou ver se o usuário já existe em nossa base
+        const userExists = await Dev.findOne({ user: username });
+        // Se o usuário já existir no banco, vamos retorná-lo
+        if (userExists) {
+            return res.json(userExists);
+        }
+
         const response = await axios.get(`https://api.github.com/users/${username}`);
-        // O axios quando faz uma requisição ele retorna os dados dentro do data
-        return res.json(response.data);
+
+        // Pegando os dados da API que queremos utilizar utilizando a desestruturação
+        // ps: pegamos o avatar_url dentro de response.data e o chamamos de avatar
+        const { name, bio, avatar_url: avatar } = response.data;
+
+        // Criando um objeto dev no banco mongo
+        const dev = await Dev.create({
+            // como teremos name: name, bio: bio, avatar: avatar, podemos omití-los
+            name,
+            user: username,
+            bio,
+            avatar
+        });
+
+        return res.json(dev);
     }
 };
