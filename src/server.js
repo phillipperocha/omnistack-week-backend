@@ -1,13 +1,11 @@
 const express = require('express');
+// Sempre que quisermos no node importar um recurso que criamos, que não é um module
+// Temos que passar o caminho do arquivo
+const routes = require('./routes')
+
 const server = express();
 
-server.get('/', (req, res) => {
-    // Podemos pegar os parâmetros da requisição através da mesma pela query
-    let nome = req.query.nome;
-    let idade = req.query.idade;
-
-    // Como iremos trabalhar com API retornaremos JSON por isso
-    return res.json({"nome": nome, "idade": idade});
-});
+// E agora vamos dizer ao nosso servidor para usar essas rotas
+server.use(routes);
 
 server.listen(3333);
