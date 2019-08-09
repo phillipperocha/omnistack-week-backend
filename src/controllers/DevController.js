@@ -7,16 +7,10 @@ module.exports = {
 
         const loggedDev = await Dev.findById(user);
 
-        // Queremos buscar na base todos os usuários que não são nem o usuário logado
-        // Nem os usuários que ele deu like nem os que deu dislike
-        // Temos que adicionar três filtros, e eles funcionam como 'and' e não como 'or'
-        // Ou seja, a nossa condição tem que passar nos três filtros.
-        // Pra isso colocamos $and: por volta dos filtros
         const users = await Dev.find({
             $and: [
-                // Queremos usuários que o ID seja diferente do usuario logado
-                { _id: { $ne: user } }, // $ne é notEqual, ou seja, me trás todo mundo que não é o user
-                { _id: { $nin: loggedDev.likes } }, // $nin é notIn, ou seja, os usuários que não estejam nessa lista
+                { _id: { $ne: user } }, // $ne é notEqual
+                { _id: { $nin: loggedDev.likes } }, // $nin é notIn
                 { _id: { $nin: loggedDev.dislikes} }
             ]
         });
