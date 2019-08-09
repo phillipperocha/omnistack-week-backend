@@ -14,6 +14,16 @@ const DevSchema = new Schema({
         type: String,
         required: true,
     },
+    // Vamos guardar dentro do Schema o id do desenvolvedores que demos likes e dislikes
+    // Então vamos declarar o tipo do que vai entrar
+    likes: [{
+        type: Schema.Types.ObjectId, // Que é o formato do ID do mongo
+        ref: 'Dev', // Referente a qual model? O dev.
+    }],
+    dislikes: [{
+        type: Schema.Types.ObjectId, // Que é o formato do ID do mongo
+        ref: 'Dev', // Referente a qual model? O dev.
+    }],
 }, {
     timestamps: true,
 });

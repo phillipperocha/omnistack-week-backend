@@ -1,16 +1,12 @@
 const express = require('express');
 const DevController = require('./controllers/DevController');
+// Importaremos o nosso Controller
+const LikeController = require('./controllers/LikeController');
 
 const routes = express.Router();
 
-routes.get('/', (req, res) => {
-    let nome = req.query.nome;
-    let idade = req.query.idade;
-
-    return res.json({"nome": nome, "idade": idade});
-});
-
-// E agora aqui no Post de devs, chamaremos o controller com o método store
 routes.post('/devs', DevController.store);
+ // :devId para passar um parâmetro
+routes.post('/devs/:devId/likes', LikeController.store);
 
 module.exports = routes;
