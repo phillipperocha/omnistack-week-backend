@@ -12,12 +12,7 @@ module.exports = {
             return res.status(400).json({ error: 'Dev does not exists.'});
         }
 
-        // E se os dois derem likes entre si?
-        if (targetDev.likes.includes(loggedDev._id)) {
-            console.log("Deu MATCH!");
-        }
-
-        loggedDev.likes.push(targetDev._id);
+        loggedDev.dislikes.push(targetDev._id);
 
         await loggedDev.save();
 

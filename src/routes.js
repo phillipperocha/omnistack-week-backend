@@ -1,12 +1,12 @@
 const express = require('express');
 const DevController = require('./controllers/DevController');
-// Importaremos o nosso Controller
 const LikeController = require('./controllers/LikeController');
+const DislikeController = require('./controllers/DislikeController');
 
 const routes = express.Router();
 
 routes.post('/devs', DevController.store);
- // :devId para passar um parâmetro
 routes.post('/devs/:devId/likes', LikeController.store);
+routes.post('/devs/:devId/dislikes', DislikeController.store);
 
 module.exports = routes;
